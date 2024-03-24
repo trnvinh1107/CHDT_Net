@@ -1,0 +1,38 @@
+﻿@model Nhom4_DoAnWeb_CHDT.Models.tblDIENTHOAI
+
+@{
+    ViewBag.Title = "Thông tin điện thoại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Thông tin Điện Thoại</h2>
+
+<div>
+    <hr />
+    <h2 style="text-decoration:underline">
+        @Html.DisplayFor(model => model.TENDT)
+    </h2>
+    <div class="thongtin" style="display:flex">
+        <div class="left" style="width:60%">
+
+            <img src="@Model.HINH" width="60%" />
+        </div>
+        <div class="right" style="width:40%; margin-top: 5%">
+            <h4 style="color:orangered; font-size:30px"> @Html.DisplayFor(model => model.GIABAN)</h4>
+            <p style="font-size:18px"> @Html.DisplayFor(model => model.MOTA)</p>
+            <div class="button" style="display:flex">
+                <a class="btn btn-default" style="width:30%;margin-right:20px" href="@Url.Action("trang_chu", "KhoaiTei")">Quay lại</a>
+
+                <a class="btn btn-success" style="width:60%" href="@Url.Action("ThemGioHang", "Giohang",
+                                        new { @id = @Model.MADT, @strUrl = Request.Url.ToString() })">Đặt mua</a>
+            </div>
+        </div>
+    </div>
+    <br />
+    <p style="font-size:16px">
+        <span><img src="~/Content/images/uytin.jpg" width="30px"></span>
+        Hàng chính hãng - Bảo hành 12 Tháng
+        <span><img src="~/Content/images/ship.jpg" width="30px"></span>
+        Giao hàng toàn quốc
+    </p>
+</div>

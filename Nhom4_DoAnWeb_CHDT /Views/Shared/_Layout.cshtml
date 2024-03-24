@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="@Url.Action("trang_chu","KhoaiTei")">
+                <img src="~/Content/images/logo_header.jpg" alt="">
+            </a>
+        </div>
+        <div class="search-header">
+            @using (Html.BeginForm("tim_kiem", "DienThoai", FormMethod.Get))
+            {
+                <p>
+                    <input type="Text" class="form-control col-md-10 search__dt" name="searchName" placeholder="Nhập tên Điện Thoại cần tìm...">
+                    <input type="submit" value="Search" class="btn btn-info" />
+                </p>
+            }
+        </div>
+    </div>
+    @using Nhom4_DoAnWeb_CHDT.Models
+    @{
+        tblTAIKHOAN tk = (tblTAIKHOAN)Session["TaiKhoan"];
+    }
+    <div class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Trang chủ", "trang_chu", "KhoaiTei")</li>
+                    <li>@Html.ActionLink("Giới thiệu", "gioi_thieu", "KhoaiTei")</li>
+                    <li>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-haspopup="true" aria-
+                                   expanded="false">Điện thoại <span class="caret"></span></a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 1})">Apple</a></li>
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 2})">SamSung</a></li>
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 3})">Oppo</a></li>
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 4})">Xiaomi</a></li>
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 6})">Realmi</a></li>
+                                    <li> <a href="@Url.Action("DienThoai", "DienThoai", new{ maloai = 8})">Vivo</a></li>
+                                    <li role="separator" class="divider"> </li>
+                                    <li> <a href="@Url.Action("danh_sach", "DienThoai")">Danh Sách Điện thoại</a></li>
+                                    @if (tk != null && tk.role == "QT")
+                                    {
+                                        <li role="separator" class="divider"> </li>
+                                        <li> <a href="@Url.Action("danh_sach_QT", "DienThoai")">Quản lý Điện thoại</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Dịch vụ sửa chữa", "dich_vu_sua_chua", "KhoaiTei")</li>
+                    <li>@Html.ActionLink("Giỏ hàng", "GioHang", "GioHang")</li>
+                    @if (tk != null)
+                    {
+                        if (tk.role == "QT")
+                        {
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                       role="button" aria-haspopup="true" aria-
+                                       expanded="false">Danh mục <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li>@Html.ActionLink("Khách hàng", "danh_sach", "KhachHang")</li>
+                                        <li>@Html.ActionLink("Nhân viên", "danh_sach", "NhanVien")</li>
+                                        <li>@Html.ActionLink("Nhà cung cấp", "danh_sach", "NCC")</li>
+                                        <li>@Html.ActionLink("Nhập kho", "danh_sach_NK", "NhapKho")</li>
+                                        <li>@Html.ActionLink("Hóa đơn", "danh_sach_HDQT", "HoaDon")</li>
+                                        <li>@Html.ActionLink("Tài khoản", "danh_sach", "NguoiDung")</li>
+                                        <li role="separator" class="divider"> </li>
+                                        <li>@Html.ActionLink("Thống kê", "ThongKe", "HoaDon")</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        if (tk.role == "NV")
+                        {
+                            <li>@Html.ActionLink("Khách hàng", "danh_sach", "KhachHang")</li>
+                        }
+                        if (tk.role == "NV" || tk.role == "KH")
+                        {
+                            <li>@Html.ActionLink("Hóa đơn", "nhap_TTHD", "HoaDon")</li>
+                        }
+                        <li>
+                            <a href="@Url.Action("DangXuat", "NguoiDung")">Đăng xuất</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Action("DangNhap", "NguoiDung")">Đăng nhập</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <div class="footer">
+            <div class="foot__menu">
+                <div class="info">
+                    <h3><span style="font-size:24px;">KhoaiTei Shop</span> (Uy tín tạo nên thương hiệu)</h3>
+                    <p style="font-size:18px">
+                        Chúng tôi tin vào dịch vụ của mình và bạn biết điều đó.
+                    </p>
+                    <a href="@Url.Action("trang_chu","KhoaiTei")">
+                        <img src="~/Content/images/logo_footer.jpg" alt="" width="250px">
+                    </a>
+                </div>
+                <div class="line"></div>
+                <div class="support" style="font-size:18px">
+                    <h5 style="font-size:24px">Bạn cần hỗ trợ</h5>
+                    <p>Email: vinhtranthe117@gmail.com</p>
+                    <p>Phone: 0935851107 </p>
+                    @*  <p>Địa chỉ: 11/07 Biên Hoà, Đồng Nai</p>*@
+                    <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d979.2362026355078!2d106.9117401614032!3d10.967538458599513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174ddf600bf14c1%3A0x2e6781657d3a9c92!2zR2nDoW8geOG7qSBOZ-G7jWMgxJDhu5NuZyAtIEdpw6FvIEjhuqF0IEjDsmEgVGhhbmggLSBHacOhbyBwaOG6rW4gWHXDom4gTOG7mWM!5e0!3m2!1svi!2sus!4v1680445063434!5m2!1svi!2sus" width="94%" height="100" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>
+                </div>
+                <div class="line"></div>
+                <div class="foot-menu" style="font-size:18px">
+                    <h5 style="font-size:24px">Danh mục</h5>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("trang_chu", "KhoaiTei")">Trang chủ</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("gioi_thieu", "KhoaiTei")">Giới thiệu</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("danh_sach", "DienThoai")">Sản phẩm</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("GioHang", "GioHang")">Đặt hàng</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="followus" style="font-size:18px">
+                    <h5 style="font-size:24px">Mạng xã hội</h5>
+                    <ul>
+                        <li>
+                            <a href="https://www.facebook.com/vin1107/">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/_trn.vinh/">Instagram</a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/_trn.vinh">Tiktok</a>
+                        </li>
+                        <li>
+                            <a href="https://mobile.twitter.com/vysky30">Twitter</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="line-end"></div>
+            <div class="foot--end">
+                <p>© 2023 - Designed by _trn.vinh</p>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
+    @RenderSection("them_moi", required: false)
+</body>
+
+</html>
